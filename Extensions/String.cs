@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace System
 {
+    /// <summary>
+    /// Provides string extensions
+    /// </summary>
     public static class String
     {
         /// <summary>

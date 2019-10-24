@@ -4,6 +4,9 @@ using System.Text;
 
 namespace System.Collections.Generic
 {
+    /// <summary>
+    /// Provides extensions for IEnumerable objects
+    /// </summary>
     public static class IEnumerable
     {
         /// <summary>

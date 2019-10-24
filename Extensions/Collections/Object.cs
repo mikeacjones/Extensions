@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace System.Collections
 {
+    /// <summary>
+    /// Provides object extensions - typically for classes rather than primitives
+    /// </summary>
     public static class Object
     {
 

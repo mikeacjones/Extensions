@@ -7,7 +7,7 @@
     <ProjectGuid>{75795AFD-E5FD-44F6-8EB5-4D231386EE22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Extensions</RootNamespace>
+    <RootNamespace>System</RootNamespace>
     <AssemblyName>Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -41,7 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Generic\IDictionary.cs" />
+    <Compile Include="Collections\Generic\IEnumerable.cs" />
+    <Compile Include="Collections\Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="String.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,8 +13,15 @@ namespace System.Collections.Generic
         /// <typeparam name="T">Type of object in set - does not matter for our purposes</typeparam>
         /// <param name="list">Set to get all sets of</param>
         /// <returns>Set of all set combinations</returns>
-        public static IEnumerable<IEnumerable<T>> SetOfAllSets<T>(this IEnumerable<T> list)
+        public static IEnumerable<IEnumerable<T>> SetOfAllSets<T>(this IEnumerable<T> list, bool includeEmptySet = true)
         {
+            //if its an empty set return an empty set
+            if (list == null || list.Count() == 0)
+                if (includeEmptySet)
+                    return new[] { new T[0] };
+                else
+                    return null;
+
             #region Explanation
             /*
                 For set: { 1, 2, 3, 4, 5 }
@@ -59,10 +66,12 @@ namespace System.Collections.Generic
                 31: 11111 = first, second, third, fourth, and fifth element
                 */
             #endregion
-            T[] data = list.ToArray();
+            int numberOfMasks = 1 << list.Count();
+            if (!includeEmptySet) --numberOfMasks;
+
             return Enumerable
-                    .Range(0, 1 << (data.Length)) // 2 ^ length = combinations, so create a size list: 0, 1, 2, 3, etc..
-                    .Select(index => data
+                    .Range(includeEmptySet ? 0 : 1, numberOfMasks) // 2 ^ length = combinations, so create a size list: 0, 1, 2, 3, etc..
+                    .Select(index => list
                         .Where((val, jIndex) => (index & (1 << jIndex)) != 0)
                             .ToArray())
                     .OrderBy(@set => @set.Count()); //and then go ahead and sort them by the size of the set

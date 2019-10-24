@@ -15,25 +15,55 @@ namespace System.Collections.Generic
         /// <returns>Set of all set combinations</returns>
         public static IEnumerable<IEnumerable<T>> SetOfAllSets<T>(this IEnumerable<T> list)
         {
-            T[] data = list.ToArray();
+            #region Explanation
             /*
-            eg, list size of 4:
-            0000000000000000
-            0000000000000001
-            0000000000000010
-            0000000000000011
-            0000000000000100
-            0000000000000101
-            0000000000000110
-            0000000000000111
-            0000000000001000
-            and so on...
-            the bits show us our combinations, once we shift it!
-            */
+                For set: { 1, 2, 3, 4, 5 }
+
+                2^0=1  : 00001
+                2^1=2  : 00010
+                2^2=4  : 00100
+                2^3=8  : 01000
+                2^4=16 : 10000
+
+                0:  00000 = no matches
+                1:  00001 = first element
+                2:  00010 = second element
+                3:  00011 = first & second element
+                4:  00100 = third element
+                5:  00101 = first & third element
+                6:  00110 = second and third element
+                7:  00111 = first, second, and third element
+                8:  01000 = fourth element
+                9:  01001 = first and fourth element
+                10: 01010 = second and fourth element
+                11: 01011 = first, second, and fourth element
+                12: 01100 = third and fourth element
+                13: 01101 = first, third, and fourth element
+                14: 01110 = second, third, and fourth element
+                15: 01111 = first, second, third, and fourth element
+                16: 10000 = fifth element
+                17: 10001 = first element and fifth element
+                18: 10010 = second element and fifth element
+                19: 10011 = first, second, and fifth element
+                20: 10100 = third and fifth element
+                21: 10101 = first, third, and fifth element
+                22: 10110 = second, third, and fifth element
+                23: 10111 = first, second, third, and fifth element
+                24: 11000 = fourth and fifth element
+                25: 11001 = first, fourth, and fifth element
+                26: 11010 = second, fourth and fifth element
+                27: 11011 = first, second, fourth and fifth element
+                28: 11100 = third, fourth and fifth element
+                29: 11101 = first, third, fourth, and fifth element
+                30: 11110 = second, third, fourth, and fifth element
+                31: 11111 = first, second, third, fourth, and fifth element
+                */
+            #endregion
+            T[] data = list.ToArray();
             return Enumerable
                     .Range(0, 1 << (data.Length)) // 2 ^ length = combinations, so create a size list: 0, 1, 2, 3, etc..
                     .Select(index => data
-                        .Where((val, jIndex) => (index & (1 << jIndex)) != 0) //if the current jindex ^ 2 bits line up with our current index, include
+                        .Where((val, jIndex) => (index & (1 << jIndex)) != 0)
                             .ToArray())
                     .OrderBy(@set => @set.Count()); //and then go ahead and sort them by the size of the set
         }

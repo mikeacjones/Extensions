@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace System.Collections
+namespace System
 {
     /// <summary>
     /// Provides object extensions - typically for classes rather than primitives

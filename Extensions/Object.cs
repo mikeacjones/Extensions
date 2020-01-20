@@ -52,7 +52,7 @@ namespace System
         /// <param name="o">Object to mutate</param>
         /// <param name="propName">Name of the property to change the value on</param>
         /// <param name="value">New value for the property</param>
-        /// <returns></returns>
+        /// <returns>A new anonymous object with the changed value</returns>
         public static object MutateAnonymous(this object o, string propName, object value)
         {
             var anonymousType = o.GetType();
@@ -75,7 +75,7 @@ namespace System
         /// </summary>
         /// <param name="o"></param>
         /// <param name="propName"></param>
-        /// <returns></returns>
+        /// <returns>A bool indicating if the object contains the specified property</returns>
         public static bool ContainsProperty<T>(this T o, string propName) where T : class
         {
             var prop = o.GetType().GetProperty(propName);
@@ -87,6 +87,7 @@ namespace System
         /// <param name="o"></param>
         /// <param name="propName"></param>
         /// <param name="value"></param>
+        /// <exception cref="InvalidOperationException">Thrown when a property is specified that does not exist</exception>
         public static void SetPropVal<T>(this T o, string propName, object value) where T : class
         {
             var prop = o.GetType().GetProperty(propName);
@@ -100,7 +101,8 @@ namespace System
         /// <typeparam name="T"></typeparam>
         /// <param name="o"></param>
         /// <param name="propName"></param>
-        /// <returns></returns>
+        /// <returns>The property value</returns>
+        /// <exception cref="InvalidOperationException">Thrown when a property is specified that does not exist</exception>
         public static object GetPropVal<T>(this T o, string propName) where T : class
         {
             var prop = o.GetType().GetProperty(propName);

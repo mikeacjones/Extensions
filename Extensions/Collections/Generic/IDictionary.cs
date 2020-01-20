@@ -9,7 +9,7 @@ namespace System.Collections.Generic
         /// this pair of methods can be used to mutate an anonymous object and add a new property dynamically
         /// </summary>
         /// <param name="dict"></param>
-        /// <returns></returns>
+        /// <returns>An anonymous object containing the dictionary keys as properties</returns>
         public static object ToAnonymous(this IDictionary<string, object> dict)
         {
             ExpandoObject obj = new ExpandoObject();

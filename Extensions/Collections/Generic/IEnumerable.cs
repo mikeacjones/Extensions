@@ -80,12 +80,12 @@ namespace System.Collections.Generic
                     .OrderBy(@set => @set.Count()); //and then go ahead and sort them by the size of the set
         }
         /// <summary>
-        /// Returns a datatable created from the object
+        /// Returns a datatable created from the object. If the type can be determined, the column type will be set.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="items"></param>
         /// <param name="publicOnly">Specifies if only public properties should be added to the data table</param>
-        /// <returns></returns>
+        /// <returns>DataTable - one row per object, with a column for each property.</returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> items, bool publicOnly = false) where T : class
         {
             DataTable result = new DataTable();
@@ -118,17 +118,23 @@ namespace System.Collections.Generic
         /// <param name="items"></param>
         /// <param name="publicOnly">Indicates if only public properties should be included</param>
         /// <param name="includeHeaders">Indicates if a header line should be included</param>
-        /// <returns></returns>
-        public static string ToCSV<T>(this IEnumerable<T> items, bool publicOnly = false, bool includeHeaders = true) where T : class
+        /// <returns>A string containing the CSV representation of the object.</returns>
+        public static string ToCSV<T>(this IEnumerable<T> items, string separator = ",", string wrapper = "\"", bool publicOnly = false, bool includeHeaders = true) where T : class
         {
             StringBuilder sb = new StringBuilder();
             var props = typeof(T).GetProperties().Where(p => p.CanRead && (!publicOnly || p.GetMethod.IsPublic));
 
             if (includeHeaders)
-                sb.AppendLine(string.Join(",", props.Select(p => p.Name))); //add the header line
+                sb.AppendLine(string.Join(separator, props.Select(p => p.Name))); //add the header line
 
             foreach (T item in items)
-                sb.AppendLine(string.Join(",", props.Select(p => item.GetPropVal(p.Name))));
+                sb.AppendLine(string.Join(separator, props.Select(p =>
+                {
+                    string propValue = item.GetPropVal(p.Name).ToString();
+                    if (propValue.Contains(","))
+                        propValue = $"{wrapper}{propValue.Replace(wrapper, $"\\{wrapper}")}{wrapper}";
+                    return propValue;
+                })));
 
             return sb.ToString();
         }
